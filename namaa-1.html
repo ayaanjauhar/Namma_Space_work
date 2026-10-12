@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Namma Space | Techfest IIT Bombay</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--tx:#10243a;--mu:#5a6b7d;--ac:#0b6fd6;--ac2:#e8590c;--bd:#d6dfe9;--hero:#e3edf8}
+@media(prefers-color-scheme:dark){:root{--bg:#0a1626;--card:#12243a;--tx:#e8f0f8;--mu:#93a6ba;--ac:#5eb4ff;--ac2:#ff9a5c;--bd:#233a55;--hero:#0e2038}}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,sans-serif;line-height:1.5}
+nav{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:16px 5vw;background:var(--bg);border-bottom:1px solid var(--bd)}
+nav b{font-size:18px} nav b span{color:var(--ac)}
+nav div a{color:var(--mu);text-decoration:none;margin-left:20px;font-size:14px;font-weight:500}
+nav div a:hover{color:var(--ac)}
+nav div a.highlight{color:var(--ac2);font-weight:700}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:center;padding:48px 5vw;background:var(--hero)}
+h1{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:8px 0 14px}
+h1 span{color:var(--ac)}
+.hero p{color:var(--mu);max-width:44ch;font-size:15px}
+.btn{display:inline-block;background:var(--ac);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;margin:8px 8px 0 0;font-size:14px;border:0;cursor:pointer}
+.btn.o{background:none;color:var(--ac);border:1.5px solid var(--ac)}
+#stage{position:relative;height:min(55vh,480px);min-height:320px;border-radius:12px;background:var(--card);border:1px solid var(--bd);overflow:hidden;touch-action:none;cursor:grab;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+#stage canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:12px;right:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:6px}
+#hud button{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
+#hud button.on{background:var(--ac2);color:#fff;border-color:var(--ac2)}
+#info{position:absolute;top:12px;left:12px;font-size:12px;color:var(--mu);background:var(--bg);padding:4px 10px;border-radius:12px;border:1px solid var(--bd)}
+section{padding:56px 5vw;max-width:1100px;margin:auto}
+h2{font-size:26px;margin:0 0 6px}
+.sub{color:var(--mu);margin:0 0 28px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.card i{font-style:normal;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;margin-bottom:12px;font-size:13px}
+.card h3{margin:0 0 8px;font-size:17px}.card p{margin:0;color:var(--mu);font-size:14px}
+footer{padding:24px 5vw;text-align:center;color:var(--mu);font-size:13px;border-top:1px solid var(--bd);background:var(--bg)}
+@media(max-width:800px){.hero{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <b>Namma<span>Space</span></b>
+  <div>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#rounds">Rounds</a>
+    <a href="namaa-2.html" class="highlight">Video-to-3D Overlay ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+<div>
+<span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);font-weight:700;">Techfest 2026-27 · IIT Bombay</span>
+<h1>Indoor spaces, <span>reconstructed.</span></h1>
+<p>Turn smartphone video captures into interactive 3D digital twins[cite: 1]. Explore in first person, search POIs, and navigate smoothly around obstacles.</p>
+<a class="btn" href="#pipeline">Explore Engine</a>
+<a class="btn o" href="namaa-2.html">Try Video Overlay</a>
+</div>
+<div id="stage">
+  <div id="info">Drag to rotate · select a POI</div>
+  <div id="hud"></div>
+</div>
+</header>
+
+<section id="pipeline">
+<h2>Core Pipeline</h2>
+<p class="sub">End-to-end intelligent spatial workflow.</p>
+<div class="grid">
+<div class="card"><i>1</i><h3>Capture</h3><p>Record indoor spaces smoothly using any smartphone camera feed.</p></div>
+<div class="card"><i>2</i><h3>Reconstruct</h3><p>Convert raw frame data into lightweight, textured 3D meshes.</p></div>
+<div class="card"><i>3</i><h3>Explore</h3><p>Roam freely via browser-based WebGL rendering without downloads.</p></div>
+<div class="card"><i>4</i><h3>Navigate</h3><p>Query items, trigger semantic search, and compute safe paths.</p></div>
+</div>
+</section>
+
+<section id="rounds">
+<h2>Competition Structure</h2>
+<div class="grid">
+<div class="card"><h3>Round 1</h3><p>Online submission featuring 3D reconstruction and browser viewer model[cite: 1].</p></div>
+<div class="card"><h3>Round 2</h3><p>Integration of spatial POI search and robust pathfinding routing[cite: 1].</p></div>
+<div class="card"><h3>Round 3</h3><p>On-campus live finale at IIT Bombay with real-time capture and pitch[cite: 1].</p></div>
+</div>
+</section>
+
+<footer>Namma Space Engine · Techfest, IIT Bombay</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const W=20, D=14;
+const stage = document.getElementById('stage');
+const hud = document.getElementById('hud');
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+const ren = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+stage.insertBefore(ren.domElement, stage.firstChild);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+dl.position.set(8, 16, 10);
+scene.add(dl);
+
+const g = new THREE.Group();
+scene.add(g);
+
+const wp = (cx, cz) => [cx + 0.5 - W / 2, cz + 0.5 - D / 2];
+const blocked = new Array(W * D).fill(0);
+
+function box(x, z, w, d, h, c, solid) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshLambertMaterial({ color: c }));
+  m.position.set(x + w / 2 - W / 2, h / 2, z + d / 2 - D / 2);
+  g.add(m);
+  if (solid) {
+    for (let a = x; a < x + w; a++) {
+      for (let b = z; b < z + d; b++) blocked[b * W + a] = 1;
+    }
+  }
+}
+
+const fl = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshLambertMaterial({ color: 0xcfd8e3 }));
+fl.rotation.x = -Math.PI / 2;
+g.add(fl);
+
+box(0, -0.3, W, 0.3, 0.9, 0x35557a, 0);
+box(0, D, W, 0.3, 0.9, 0x35557a, 0);
+box(-0.3, 0, 0.3, D, 0.9, 0x35557a, 0);
+box(W, 0, 0.3, D, 0.9, 0x35557a, 0);
+box(12, 0, 0.3, 6, 1.6, 0x4b6f9a, 1);
+box(12, 8, 0.3, 6, 1.6, 0x4b6f9a, 1);
+box(1, 3, 4, 1, 0.8, 0xb7791f, 1);
+box(1, 8, 3, 1, 0.7, 0x7c3aed, 1);
+box(5, 4, 3, 2, 0.7, 0x2f855a, 1);
+
+const pois = { "Reception": [3, 5], "Sofas": [2, 10], "Meeting Room": [16, 4] };
+const start = [8, 7];
+const pins = {};
+let cur = null, pathPts = [], dots = [];
+
+const youM = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), new THREE.MeshLambertMaterial({ color: 0xe8590c }));
+g.add(youM);
+
+function place(m, c, y) {
+  const p = wp(c[0], c[1]);
+  m.position.set(p[0], y, p[1]);
+}
+place(youM, start, 0.4);
+
+Object.keys(pois).forEach(k => {
+  const p = new THREE.Mesh(new THREE.ConeGeometry(0.3, 0.9, 12), new THREE.MeshLambertMaterial({ color: 0x0b6fd6 }));
+  p.rotation.x = Math.PI;
+  place(p, pois[k], 1.6);
+  g.add(p);
+  pins[k] = p;
+
+  const b = document.createElement('button');
+  b.textContent = k;
+  b.onclick = () => go(k);
+  hud.appendChild(b);
+});
+
+function astar(s, t) {
+  const open = [[0, s[0], s[1]]], came = {}, gs = {};
+  const key = (x, z) => z * W + x;
+  gs[key(s[0], s[1])] = 0;
+  const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+  while (open.length) {
+    open.sort((a, b) => a[0] - b[0]);
+    const [_, x, z] = open.shift();
+    if (x === t[0] && z === t[1]) {
+      const r = [[x, z]];
+      let k = key(x, z);
+      while (came[k] !== undefined) {
+        const p = came[k];
+        r.push([p % W, Math.floor(p / W)]);
+        k = p;
+      }
+      return r.reverse();
+    }
+    for (const [dx, dz] of dirs) {
+      const nx = x + dx, nz = z + dz;
+      if (nx < 0 || nz < 0 || nx >= W || nz >= D || blocked[nz * W + nx]) continue;
+      const cost = gs[key(x, z)] + 1, nk = key(nx, nz);
+      if (gs[nk] === undefined || cost < gs[nk]) {
+        gs[nk] = cost;
+        came[nk] = key(x, z);
+        open.push([cost + Math.hypot(nx - t[0], nz - t[1]), nx, nz]);
+      }
+    }
+  }
+  return [];
+}
+
+function go(k) {
+  cur = k;
+  dots.forEach(d => g.remove(d));
+  dots = [];
+  const path = astar(start, pois[k]);
+  pathPts = path.map(c => {
+    const p = wp(c[0], c[1]);
+    return new THREE.Vector3(p[0], 0.4, p[1]);
+  });
+  path.forEach(c => {
+    const d = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), new THREE.MeshBasicMaterial({ color: 0xe8590c }));
+    const p = wp(c[0], c[1]);
+    d.position.set(p[0], 0.12, p[1]);
+    g.add(d);
+    dots.push(d);
+  });
+  hud.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.textContent === k));
+  document.getElementById('info').textContent = `Navigating to ${k}`;
+}
+go('Meeting Room');
+
+let rot = 0.6, tilt = 0.9, drag = false, lx = 0, ly = 0;
+stage.addEventListener('pointerdown', e => {
+  if (e.target.tagName === 'BUTTON') return;
+  drag = true; lx = e.clientX; ly = e.clientY;
+  stage.style.cursor = 'grabbing';
+});
+addEventListener('pointerup', () => { drag = false; stage.style.cursor = 'grab'; });
+addEventListener('pointermove', e => {
+  if (!drag) return;
+  rot += (e.clientX - lx) * 0.01;
+  tilt = Math.max(0.35, Math.min(1.4, tilt + (e.clientY - ly) * 0.006));
+  lx = e.clientX; ly = e.clientY;
+});
+
+function size() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  ren.setSize(w, h);
+  cam.aspect = w / h;
+  cam.updateProjectionMatrix();
+}
+addEventListener('resize', size);
+size();
+
+let t = 0, walker = 0;
+function loop() {
+  requestAnimationFrame(loop);
+  t++;
+  cam.position.set(Math.sin(rot) * Math.cos(tilt) * 24, Math.sin(tilt) * 24, Math.cos(rot) * Math.cos(tilt) * 24);
+  cam.lookAt(0, 0, 0);
+  Object.keys(pins).forEach(k => pins[k].position.y = 1.6 + Math.sin(t * 0.05) * 0.12);
+  if (pathPts.length > 1) {
+    walker = (walker + 0.1) % (pathPts.length - 1);
+    const i = Math.floor(walker), f = walker - i;
+    youM.position.lerpVectors(pathPts[i], pathPts[i + 1], f);
+  }
+  ren.render(scene, cam);
+}
+loop();
+})();
+</script>
+</body>
+</html>
