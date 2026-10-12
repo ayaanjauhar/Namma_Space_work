@@ -1,1 +1,20 @@
 icarus-app
+
+# Ignore uploaded video storage directory (used by Namaa.py)
+uploads/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.env
+
+# IDE and OS specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
