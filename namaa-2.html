@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Namma Space | Professional 3D Architectural Twin</title>
+<title>Namma Space | Professional Hybrid 3D Architectural Twin with Collisions</title>
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--tx:#10243a;--mu:#5a6b7d;--ac:#0b6fd6;--ac2:#e8590c;--bd:#d6dfe9;--hero:#e3edf8}
 @media(prefers-color-scheme:dark){:root{--bg:#0a1626;--card:#12243a;--tx:#e8f0f8;--mu:#93a6ba;--ac:#5eb4ff;--ac2:#ff9a5c;--bd:#233a55;--hero:#0e2038}}
@@ -24,7 +24,6 @@ h2{margin-top:0;font-size:22px}
 #stage{position:relative;width:100%;height:420px;background:var(--card);border-radius:8px;border:1px solid var(--bd);overflow:hidden;cursor:grab}
 #stage canvas{display:block;width:100%;height:100%}
 #info{position:absolute;top:12px;left:12px;font-size:12px;color:#fff;background:rgba(0,0,0,0.7);padding:6px 12px;border-radius:12px;z-index:10}
-.object-tag{position:absolute;background:rgba(11,111,214,0.85);color:#fff;padding:2px 8px;font-size:10px;border-radius:6px;pointer-events:none;transform:translate(-50%,-100%);white-space:nowrap;display:none;z-index:5}
 .btn{background:var(--ac);color:#fff;border:0;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;margin-top:10px}
 .btn.o{background:none;color:var(--ac);border:1.5px solid var(--ac)}
 .btn.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
@@ -36,25 +35,23 @@ footer{padding:24px 5vw;text-align:center;color:var(--mu);font-size:13px;border-
 <body>
 
 <nav>
-  <b>Namma<span>Space</span>[cite: 1]</b>
+  <b>Namma<span>Space</span></b>
   <div>
-    <a href="namaa-1.html">Pipeline[cite: 1]</a>
-    <a href="namaa-1.html#rounds">Rounds[cite: 1]</a>
-    <a href="namaa-2.html" class="highlight">Video-to-3D Overlay ↗[cite: 2]</a>
+    <a href="#" class="highlight">Hybrid 3D Twin with Collisions ↗</a>
   </div>
 </nav>
 
 <div class="container">
   <div class="panel">
-    <h2>1. Upload Walkthrough Capture to Python Backend</h2>
+    <h2>1. Upload Walkthrough Capture</h2>
     <input type="file" id="videoFile" accept="video/*" style="font-size:14px;color:var(--mu)">
     <br>
-    <button class="btn" id="uploadBtn">Send to Python Backend & Build Twin</button>
-    <div id="console">System ready. Connect to FastAPI backend server on port 8000.</div>
+    <button class="btn" id="uploadBtn">Build Hybrid Twin & Enable Wall Collisions</button>
+    <div id="console">System ready. Select a video file to run hybrid parametric structure and texture mapping locally.</div>
   </div>
 
   <div class="panel">
-    <h2>2. Professional 3D Architectural Twin Viewer</h2>
+    <h2>2. Professional Hybrid 3D Architectural Twin Viewer</h2>
     <div class="workspace">
       <div class="video-preview">
         <video id="sourceVideo" controls muted playsinline></video>
@@ -74,12 +71,12 @@ footer{padding:24px 5vw;text-align:center;color:var(--mu);font-size:13px;border-
   </div>
 </div>
 
-<footer>Namma Space Engine · Techfest, IIT Bombay[cite: 1]</footer>
+<footer>Namma Space Engine · Structured Room Layout & Wall Collisions</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
 <script>
-const W = 30, D = 22;
+const W = 24, D = 20;
 const stage = document.getElementById('stage');
 const info = document.getElementById('info');
 const consoleDiv = document.getElementById('console');
@@ -97,7 +94,7 @@ scene.background = new THREE.Color(0x0a1626);
 scene.fog = new THREE.FogExp2(0x0a1626, 0.02);
 
 const cam = new THREE.PerspectiveCamera(65, stage.clientWidth / stage.clientHeight, 0.1, 100);
-cam.position.set(0, 22, 28);
+cam.position.set(0, 20, 25);
 
 const ren = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 ren.setSize(stage.clientWidth, stage.clientHeight);
@@ -106,16 +103,15 @@ ren.shadowMap.enabled = true;
 ren.shadowMap.type = THREE.PCFSoftShadowMap;
 stage.insertBefore(ren.domElement, stage.firstChild);
 
-// Professional Lighting Setup with Shadows
 scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 const dl = new THREE.DirectionalLight(0xffffff, 0.9);
-dl.position.set(12, 24, 15);
+dl.position.set(10, 22, 12);
 dl.castShadow = true;
 dl.shadow.mapSize.width = 2048;
 dl.shadow.mapSize.height = 2048;
 dl.shadow.camera.near = 0.5;
 dl.shadow.camera.far = 50;
-const d = 18;
+const d = 16;
 dl.shadow.camera.left = -d;
 dl.shadow.camera.right = d;
 dl.shadow.camera.top = d;
@@ -136,6 +132,7 @@ group.add(floor);
 let currentMode = 'third';
 const fpControls = new THREE.PointerLockControls(cam, ren.domElement);
 let renderedMeshes = [];
+const playerRadius = 0.5;
 
 tpBtn.onclick = () => {
   currentMode = 'third';
@@ -144,14 +141,14 @@ tpBtn.onclick = () => {
   fpBtn.className = 'btn o';
   stage.style.cursor = 'grab';
   info.textContent = "Mode: Third-Person (Drag to rotate)";
-  cam.position.set(0, 22, 28);
+  cam.position.set(0, 20, 25);
 };
 
 fpBtn.onclick = () => {
   currentMode = 'first';
   fpBtn.className = 'btn active';
   tpBtn.className = 'btn o';
-  cam.position.set(0, 1.6, 8);
+  cam.position.set(0, 1.6, 6);
   fpControls.lock();
 };
 
@@ -200,6 +197,7 @@ document.addEventListener('keyup', (e) => {
   if (e.code === 'KeyD' || e.code === 'ArrowRight') moveR = false;
 });
 
+// HYBRID CLIENT-SIDE PROCESSING
 document.getElementById('uploadBtn').onclick = async () => {
   const fileInput = document.getElementById('videoFile');
   if (!fileInput.files.length) {
@@ -211,58 +209,122 @@ document.getElementById('uploadBtn').onclick = async () => {
   videoEl.src = URL.createObjectURL(file);
   videoEl.load();
 
-  const formData = new FormData();
-  formData.append("file", file);
+  log(`Loading "${file.name}" locally in browser...`);
 
-  log(`Uploading "${file.name}" to Python FastAPI backend...`);
+  videoEl.onloadedmetadata = async () => {
+    log(`Extracting video frames for texture mapping...`);
+    const frames = await extractFrames(videoEl, 32);
+    log(`Extracted ${frames.length} color keyframes successfully.`);
 
-  try {
-    const response = await fetch("http://localhost:8000/api/process-video", {
-      method: "POST",
-      body: formData
-    });
+    const spatialLayout = [
+      {name: "Back Main Wall", geom: [24, 3.6, 0.4], pos: [0, 1.8, -10], tex_idx: 4, type: "wall"},
+      {name: "Left Outer Wall", geom: [0.4, 3.6, 20], pos: [-12, 1.8, 0], tex_idx: 12, type: "wall"},
+      {name: "Right Outer Wall", geom: [0.4, 3.6, 20], pos: [12, 1.8, 0], tex_idx: 20, type: "wall"},
+      {name: "Front Entry Wall (Left)", geom: [9.0, 3.6, 0.4], pos: [-7.5, 1.8, 10], tex_idx: 28, type: "wall"},
+      {name: "Front Entry Wall (Right)", geom: [9.0, 3.6, 0.4], pos: [7.5, 1.8, 10], tex_idx: 28, type: "wall"},
+      {name: "Doorway Lintel / Header", geom: [6.0, 1.0, 0.4], pos: [0, 3.1, 10], tex_idx: 29, type: "wall"},
+      {name: "Hallway Corridor Wall", geom: [8.0, 3.6, 0.4], pos: [-4, 1.8, 2.0], tex_idx: 36, type: "wall"},
+      {name: "Left Window Panel", geom: [0.2, 1.8, 4.0], pos: [-12, 2.0, -2], tex_idx: 15, type: "window", transparent: true},
+      {name: "Right Window Panel", geom: [0.2, 1.8, 4.0], pos: [12, 2.0, 2], tex_idx: 18, type: "window", transparent: true},
+      {name: "Shoe Rack (Near Entry)", geom: [1.2, 1.0, 0.8], pos: [10.5, 0.5, 8.5], tex_idx: 22, type: "furniture"},
+      {name: "Hostel Bed 1 (Left Wall)", geom: [2.0, 0.5, 4.8], pos: [-10, 0.25, 4.0], tex_idx: 25, type: "furniture"},
+      {name: "Hostel Bed 2 (Left Wall)", geom: [2.0, 0.5, 4.8], pos: [-10, 0.25, -3.0], tex_idx: 27, type: "furniture"},
+      {name: "Study Desk & Chair", geom: [2.2, 0.8, 2.4], pos: [-10.5, 0.4, -8.0], tex_idx: 8, type: "furniture"},
+      {name: "Wall Shelves", geom: [3.2, 0.2, 0.6], pos: [-10.5, 2.5, -8.0], tex_idx: 10, type: "furniture"},
+      {name: "Steel Wardrobe / Locker", geom: [1.6, 2.6, 2.0], pos: [10.5, 1.3, -7.0], tex_idx: 14, type: "furniture"},
+      {name: "Attached Washroom Partition", geom: [3.5, 3.4, 0.4], pos: [4, 1.7, -8.0], tex_idx: 30, type: "wall"}
+    ];
 
-    if (!response.ok) throw new Error("Server error during video processing.");
-    
-    const data = await response.json();
-    log(`Extracted ${data.keyframes.length} keyframes successfully.`);
-    log(`Rendered ${data.spatial_layout.length} precise room objects[cite: 9].`);
-    
-    buildTwinFromBackendData(data.keyframes, data.spatial_layout);
-
-  } catch (err) {
-    log(`Connection Error: ${err.message}. Ensure uvicorn is running on port 8000.`);
-  }
+    log(`Hybrid rendering complete: Built architectural shell with open door and ${spatialLayout.length} organized objects.`);
+    buildHybridTwin(frames, spatialLayout);
+  };
 };
 
-function buildTwinFromBackendData(base64Frames, layout) {
+function extractFrames(video, totalKeyframes) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    const frames = [];
+    let idx = 0;
+    const duration = video.duration;
+
+    video.pause();
+
+    function seekAndCapture() {
+      if (idx >= totalKeyframes) {
+        resolve(frames);
+        return;
+      }
+      video.currentTime = (idx / totalKeyframes) * duration;
+    }
+
+    video.onseeked = () => {
+      ctx.drawImage(video, 0, 0, 256, 256);
+      frames.push(canvas.toDataURL('image/jpeg', 0.85));
+      idx++;
+      seekAndCapture();
+    };
+
+    seekAndCapture();
+  });
+}
+
+function buildHybridTwin(base64Frames, layout) {
   while(group.children.length > 1) group.remove(group.children[1]);
   renderedMeshes = [];
 
   const textureLoader = new THREE.TextureLoader();
   const textures = base64Frames.map(b64 => textureLoader.load(b64));
 
-  const getMaterial = (idx) => {
-    const tex = textures[idx % textures.length];
-    return new THREE.MeshStandardMaterial({ 
-      map: tex || null, 
-      color: tex ? 0xffffff : 0x334e68,
-      roughness: 0.3,
-      metalness: 0.2
-    });
-  };
-
   layout.forEach(cfg => {
-    const mesh = new THREE.Mesh(
-      new THREE.BoxGeometry(...cfg.geom),
-      getMaterial(cfg.tex_idx)
-    );
+    const tex = textures[cfg.tex_idx % textures.length];
+    let mat;
+
+    if (cfg.transparent) {
+      mat = new THREE.MeshPhysicalMaterial({
+        color: 0x99ccff,
+        metalness: 0.2,
+        roughness: 0.1,
+        transparent: true,
+        opacity: 0.6,
+        side: THREE.DoubleSide
+      });
+    } else {
+      mat = new THREE.MeshStandardMaterial({
+        map: tex,
+        roughness: 0.4,
+        metalness: 0.1
+      });
+    }
+
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(...cfg.geom), mat);
     mesh.position.set(...cfg.pos);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
+    
+    mesh.geometry.computeBoundingBox();
+    const box = new THREE.Box3();
+
     group.add(mesh);
-    renderedMeshes.push({ mesh, name: cfg.name });
+    renderedMeshes.push({ mesh, box, type: cfg.type || 'furniture' });
   });
+}
+
+function checkCollision(position) {
+  const playerBox = new THREE.Box3(
+    new THREE.Vector3(position.x - playerRadius, position.y - 1.6, position.z - playerRadius),
+    new THREE.Vector3(position.x + playerRadius, position.y + 0.4, position.z + playerRadius)
+  );
+
+  for (let item of renderedMeshes) {
+    item.box.setFromObject(item.mesh);
+    if (playerBox.intersectsBox(item.box)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function animate() {
@@ -270,7 +332,7 @@ function animate() {
   const time = performance.now();
 
   if (currentMode === 'third') {
-    cam.position.set(Math.sin(rot) * Math.cos(tilt) * 30, Math.sin(tilt) * 30, Math.cos(rot) * Math.cos(tilt) * 30);
+    cam.position.set(Math.sin(rot) * Math.cos(tilt) * 25, Math.sin(tilt) * 25, Math.cos(rot) * Math.cos(tilt) * 25);
     cam.lookAt(0, 0, 0);
   } else if (currentMode === 'first' && fpControls.isLocked === true) {
     const delta = (time - prevTime) / 1000;
@@ -284,8 +346,14 @@ function animate() {
     if (moveF || moveB) velocity.z -= direction.z * 18.0 * delta;
     if (moveL || moveR) velocity.x -= direction.x * 18.0 * delta;
 
+    const oldPosition = cam.position.clone();
+
     fpControls.moveRight(-velocity.x * delta);
     fpControls.moveForward(-velocity.z * delta);
+
+    if (checkCollision(cam.position)) {
+      cam.position.copy(oldPosition);
+    }
   }
   prevTime = time;
 
